@@ -1,7 +1,7 @@
 DIRECTORY_GUARD=@mkdir -p $(@D)
 BUILD_DIRECTORY ?= build
 
-CC		=	tcc
+CC		?=	tcc
 CFLAGS	+=  -pedantic						\
 			-Wpedantic						\
 			-Wall							\
@@ -16,7 +16,9 @@ CFLAGS	+=  -pedantic						\
 LDFLAGS	+=  -lreadline						\
 			-lm 							\
 			-Ldeps/mulib					\
-			-lmu
+			-lmu							\
+			-fsanitize=undefined			\
+			-fsanitize=address
 
 TARGET   =  monkelisp
 SRCS     =  $(wildcard src/*.c)
