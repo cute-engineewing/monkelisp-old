@@ -57,5 +57,5 @@ clean:
 	-rm monkelisp
 	$(MAKE) -C deps/mulib clean
 
-.PHONY: all clean
+.PHONY: all clean test
 .DEFAULT_GOAL := all
