@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-int main(void)
+int
+main(void)
 {
-
-  printf("hello");
-  return 0;
+    printf("hello");
+    return 0;
 }

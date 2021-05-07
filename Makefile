@@ -20,16 +20,14 @@ LDFLAGS	+=  -lreadline						\
 			-fsanitize=undefined			\
 			-fsanitize=address
 
-test: CFLAGS	+=  -Iinc --coverage
-test: LDFLAGS	+= -lcmocka --coverage
-test: CC	= gcc
+test: LDFLAGS	+= -lcmocka
 
 TARGET   =  monkelisp
 SRCS     =  $(wildcard src/*.c)
 OBJS     =  $(patsubst %.c, $(BUILD_DIRECTORY)/%.c.o, $(SRCS))
 
-TEST_SRCS	= test.c
-TEST_OBJS     =  $(addprefix tests/, $(TEST_SRCS:.c=.o))
+TEST_SRCS	= $(wildcard tests/*.c)
+TEST_OBJS     =   $(patsubst %.c, $(BUILD_DIRECTORY)/%.c.o, $(TEST_SRCS))
 
 
 $(BUILD_DIRECTORY)/%.c.o: %.c
@@ -51,12 +49,12 @@ test: $(TEST_OBJS)
 all: build-mulib $(TARGET)
 
 clean:
-	@-rm -r build
-	@-rm $(TEST_OBJS:.o=.gcno)
-	@-rm $(TEST_OBJS:.o=.d)
-	@-rm $(TEST_OBJS)
+	-rm -r build
+	-rm $(TEST_OBJS:.o=.gcno)
+	-rm $(TEST_OBJS:.o=.d)
+	-rm $(TEST_OBJS)
 
-	@-rm monkelisp
+	-rm monkelisp
 	$(MAKE) -C deps/mulib clean
 
 .PHONY: all clean
