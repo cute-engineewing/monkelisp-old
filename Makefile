@@ -20,9 +20,15 @@ LDFLAGS	+=  -lreadline						\
 			-fsanitize=undefined			\
 			-fsanitize=address
 
+test: LDFLAGS	+= -lcmocka
+
 TARGET   =  monkelisp
 SRCS     =  $(wildcard src/*.c)
 OBJS     =  $(patsubst %.c, $(BUILD_DIRECTORY)/%.c.o, $(SRCS))
+
+TEST_SRCS	= $(wildcard tests/*.c)
+TEST_OBJS     =   $(patsubst %.c, $(BUILD_DIRECTORY)/%.c.o, $(TEST_SRCS))
+
 
 $(BUILD_DIRECTORY)/%.c.o: %.c
 	$(DIRECTORY_GUARD)
@@ -35,12 +41,21 @@ build-mulib:
 	$(MAKE) -C deps/mulib
 	rm deps/mulib/libmu.so
 
+
+test: $(TEST_OBJS)
+	$(CC) -o $@ $^ $(LDFLAGS)
+	@./$@
+
 all: build-mulib $(TARGET)
 
 clean:
-	rm -r build 
-	rm monkelisp
+	-rm -r build
+	-rm $(TEST_OBJS:.o=.gcno)
+	-rm $(TEST_OBJS:.o=.d)
+	-rm $(TEST_OBJS)
+
+	-rm monkelisp
 	$(MAKE) -C deps/mulib clean
 
-.PHONY: all clean
+.PHONY: all clean test
 .DEFAULT_GOAL := all
