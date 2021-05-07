@@ -1,23 +1,22 @@
 DIRECTORY_GUARD=@mkdir -p $(@D)
 BUILD_DIRECTORY ?= build
 
-CC		=	gcc
-CFLAGS	+=	-ansi	 					\
-			-pedantic					\
-			-Wpedantic					\
-			-Wall						\
-			-Wextra						\
-			-Werror						\
-			-ggdb						\
-			-MD							\
-			-fsanitize=undefined	 	\
-			-fsanitize=address  		\
-			-Ideps/mulib/inc		
+CC		=	tcc
+CFLAGS	+=  -pedantic						\
+			-Wpedantic						\
+			-Wall							\
+			-Wextra							\
+			-Werror							\
+			-ggdb							\
+			-MD								\
+			-fsanitize=undefined		 	\
+			-fsanitize=address  			\
+			-Ideps/mulib/inc				\
 
-LDFLAGS	+=	-fsanitize=undefined	\
-			-fsanitize=address		\
-			-Ldeps/mulib			\
-			-l:libmu.a
+LDFLAGS	+=  -lreadline						\
+			-lm 							\
+			-Ldeps/mulib					\
+			-lmu
 
 TARGET   =  monkelisp
 SRCS     =  $(wildcard src/*.c)
@@ -25,15 +24,21 @@ OBJS     =  $(patsubst %.c, $(BUILD_DIRECTORY)/%.c.o, $(SRCS))
 
 $(BUILD_DIRECTORY)/%.c.o: %.c
 	$(DIRECTORY_GUARD)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) -r -o $@ $< 
 
 $(TARGET): $(OBJS)
-	$(CC) $^ -lm -o $@ $(LDFLAGS)	
+	$(CC) $(LDFLAGS) -o $@ $^ 	
 
 build-mulib:
 	$(MAKE) -C deps/mulib
+	rm deps/mulib/libmu.so
 
 all: build-mulib $(TARGET)
 
-.PHONY: all
+clean:
+	rm -r build 
+	rm monkelisp
+	$(MAKE) -C deps/mulib clean
+
+.PHONY: all clean
 .DEFAULT_GOAL := all
