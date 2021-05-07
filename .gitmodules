@@ -1,0 +1,3 @@
+[submodule "deps/mulib"]
+	path = deps/mulib
+	url = https://github.com/cute-engineewing/mulib/
