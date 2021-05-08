@@ -36,7 +36,7 @@ $(BUILD_DIRECTORY)/%.c.o: %.c
 	$(CC) $(CFLAGS) -r -o $@ $< 
 
 $(TARGET): $(OBJS)
-	$(CC) $(LDFLAGS) -o $@ $^ 	
+	$(CC) $^ $(LDFLAGS) -o $@ 	
 
 build-mulib:
 	$(MAKE) -C deps/mulib
@@ -53,7 +53,7 @@ clean:
 	rm -r build
 
 	rm monkelisp
-	rm test
+	-rm test
 
 	$(MAKE) -C deps/mulib clean
 
