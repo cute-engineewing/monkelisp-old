@@ -52,7 +52,7 @@ all: build-mulib $(TARGET)
 clean:
 	rm -r build
 
-	rm monkelisp
+	-rm monkelisp
 	-rm test
 
 	$(MAKE) -C deps/mulib clean
