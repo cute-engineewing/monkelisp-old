@@ -54,3 +54,6 @@ dkms.conf
 build/
 monkelisp
 test
+
+*.gcda
+*.gcno
