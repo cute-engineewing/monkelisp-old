@@ -1,3 +1,6 @@
 [submodule "deps/mulib"]
 	path = deps/mulib
 	url = https://github.com/cute-engineewing/mulib/
+[submodule "deps/mubuild"]
+	path = deps/mubuild
+	url = https://github.com/cute-engineewing/mubuild
