@@ -13,12 +13,12 @@ jobs:
     - name: Install build dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install build-essential tcc libcmocka-dev
+        sudo apt-get install build-essential libcmocka-dev
     
     - name: Build
       run: |
         make -C deps/mulib/
-        CC=tcc make
+        CC=gcc make
     - name: Tests
       run: |
         make test
