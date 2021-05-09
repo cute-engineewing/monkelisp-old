@@ -8,3 +8,7 @@
 ![GitHub issues](https://img.shields.io/github/issues-raw/cute-engineewing/monkelisp?style=flat-square)
 
 </div>
+
+## :page_with_curl: Documentation used 
+
+[Revised 6 Report on the Algorithmic Language Scheme](http://www.r6rs.org/final/html/r6rs/r6rs.html)
