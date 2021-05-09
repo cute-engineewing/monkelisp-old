@@ -71,51 +71,51 @@ tokenize(const char *content)
 	{
 		switch (content[i])
 		{
-		case '\r':
-		case '\n':
-		case '\t':
-		case '\f':
-		case '\v':
-		case ' ':
-		{
-			assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
-			break;
-		}
-
-		case '\'':
-		case '#':
-		{
-			assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
-			assert(vec_push(&buffer, content[i]) == 0);
-
-			if (content[i + 1] == '(')
+			case '\r':
+			case '\n':
+			case '\t':
+			case '\f':
+			case '\v':
+			case ' ':
 			{
-				assert(vec_push(&buffer, '(') == 0);
+				assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
+				break;
+			}
+
+			case '\'':
+			case '#':
+			{
+				assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
+				assert(vec_push(&buffer, content[i]) == 0);
+
+				if (content[i + 1] == '(')
+				{
+					assert(vec_push(&buffer, '(') == 0);
+					assert(vec_push_char_in_str(&tokens, &buffer) == 0);
+
+					vec_clear(&buffer);
+					i++;
+				}
+
+				break;
+			}
+
+			case ')':
+			case '(':
+			{
+				assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
+				assert(vec_push(&buffer, content[i]) == 0);
 				assert(vec_push_char_in_str(&tokens, &buffer) == 0);
 
 				vec_clear(&buffer);
-				i++;
+				break;
 			}
 
-			break;
-		}
-
-		case ')':
-		case '(':
-		{
-			assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
-			assert(vec_push(&buffer, content[i]) == 0);
-			assert(vec_push_char_in_str(&tokens, &buffer) == 0);
-
-			vec_clear(&buffer);
-			break;
-		}
-
-		default:
-		{
-			assert(vec_push(&buffer, content[i]) == 0);
-			break;
-		}
+			default:
+			{
+				assert(vec_push(&buffer, content[i]) == 0);
+				break;
+			}
 		}
 	}
 
