@@ -1,9 +1,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <mulib/macros.h>
+#include <mulib/vec.h>
 
 #include <readline/history.h>
 #include <readline/readline.h>
+
+#include "reader.h"
 
 void 
 repl(void)
@@ -18,12 +21,12 @@ repl(void)
         {
             clear_history();
             free(input);
+            
             return;
         }
         else if (*input)
         {
             add_history(input);
-            /*read_str(input);*/
         }
 
         free(input);
