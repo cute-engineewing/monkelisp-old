@@ -67,68 +67,69 @@ tokenize(const char *content)
 	vec_init(&tokens);
 	vec_init(&buffer);
 
-	bool is_comment = false;
 	for (i = 0; i < strlen(content); i++)
 	{
 
-		if (content[i] == ';')
-		{
-			is_comment = true;
-		}
-		else if (content[i] == '\n')
-			is_comment = false;
-
-		if (!is_comment)
+		switch (content[i])
 		{
 
-			switch (content[i])
+			case '\r':
+			case '\t':
+			case '\f':
+			case '\v':
+			case '\n':
+			case ' ':
 			{
+				assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
+				break;
+			}
 
-				case '\r':
-				case '\t':
-				case '\f':
-				case '\v':
-				case '\n':
-				case ' ':
+			case '\'':
+			case '#':
+			{
+				assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
+				assert(vec_push(&buffer, content[i]) == 0);
+
+				if (content[i + 1] == '(')
 				{
-					assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
-					break;
-				}
-
-				case '\'':
-				case '#':
-				{
-					assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
-					assert(vec_push(&buffer, content[i]) == 0);
-
-					if (content[i + 1] == '(')
-					{
-						assert(vec_push(&buffer, '(') == 0);
-						assert(vec_push_char_in_str(&tokens, &buffer) == 0);
-
-						vec_clear(&buffer);
-						i++;
-					}
-
-					break;
-				}
-
-				case ')':
-				case '(':
-				{
-					assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
-					assert(vec_push(&buffer, content[i]) == 0);
+					assert(vec_push(&buffer, '(') == 0);
 					assert(vec_push_char_in_str(&tokens, &buffer) == 0);
 
 					vec_clear(&buffer);
-					break;
+					i++;
 				}
 
-				default:
+				break;
+			}
+
+			case ')':
+			case '(':
+			{
+				assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
+				assert(vec_push(&buffer, content[i]) == 0);
+				assert(vec_push_char_in_str(&tokens, &buffer) == 0);
+
+				vec_clear(&buffer);
+				break;
+			}
+
+			case ';':
+			{
+
+				assert(vec_push(&buffer, content[i]) == 0);
+
+				while (content[i++] != '\0' && content[i] != '\n')
 				{
 					assert(vec_push(&buffer, content[i]) == 0);
-					break;
 				}
+
+				assert(vec_push_char_in_str(&tokens, &buffer) == 0);
+				break;
+			}
+			default:
+			{
+				assert(vec_push(&buffer, content[i]) == 0);
+				break;
 			}
 		}
 	}

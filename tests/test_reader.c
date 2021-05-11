@@ -37,10 +37,10 @@ read_str_test_comment(void **state)
 	vec_str_t tokens;
 	char *t;
 	int i;
-	char *expected[] = { "(","+","1","2","3",")"};
+	char *expected[] = { "(","+","1","2","3",")", "; hello comment world!"};
 
 	UNUSED(state);
-	tokens = tokenize("(+ 1 2 3) ; hello comment world!\n");
+	tokens = tokenize("(+ 1 2 3) ; hello comment world!");
 
 	vec_foreach(&tokens, t, i) { assert_string_equal(expected[i], t); }
 
