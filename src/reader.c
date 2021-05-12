@@ -116,8 +116,6 @@ tokenize(const char *content)
 			case ';':
 			{
 
-				assert(vec_push(&buffer, content[i]) == 0);
-
 				while (content[i] != '\0' && content[i] != '\n' && content[i] != EOF)
 				{
 					assert(vec_push(&buffer, content[i++]) == 0);

@@ -74,7 +74,6 @@ read_str_test_comment(void **state)
 
 	tokens = tokenize("; test\n (+ 1 2 3)");
 
-	printf("\033[1;32m\n%s\033[0m\n", tokens.data[1]);
 	for (i = 0; i < sizeof(expected2) / sizeof(expected2[0]); i++)
 	{
 
