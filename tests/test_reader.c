@@ -40,6 +40,8 @@ read_str_test_comment(void **state)
 	char *expected[] = {
 		"(", "+", "1", "2", "3", ")", "; hello comment world!"
 	};
+	char *expected1[] = { "; test (+ 1 2 3)" };
+	char *expected2[] = { "; test", "(", "+", "1", "2", "3", ")" };
 
 	UNUSED(state);
 	tokens = tokenize("(+ 1 2 3) ; hello comment world!");
@@ -55,8 +57,6 @@ read_str_test_comment(void **state)
 	vec_deinit(&tokens);
 
 	/* Second test */
-	char *expected1[] = { "; test (+ 1 2 3)" };
-
 	tokens = tokenize("; test (+ 1 2 3)");
 
 	for (i = 0; i < sizeof(expected1) / sizeof(expected1[0]); i++)
@@ -69,9 +69,8 @@ read_str_test_comment(void **state)
 
 	free_token_vec(&tokens);
 	vec_deinit(&tokens);
-	/* Third test */
-	char *expected2[] = { "; test", "(", "+", "1", "2", "3", ")" };
 
+	/* Third test */
 	tokens = tokenize("; test\n (+ 1 2 3)");
 
 	for (i = 0; i < sizeof(expected2) / sizeof(expected2[0]); i++)
