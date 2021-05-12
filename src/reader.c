@@ -116,7 +116,6 @@ tokenize(const char *content)
 				while (content[i] != '\0' && content[i] != '\n' &&
 					   content[i] != EOF)
 				{
-
 					assert(vec_push(&buffer, content[i++]) == 0);
 				}
 
