@@ -118,12 +118,13 @@ tokenize(const char *content)
 
 				assert(vec_push(&buffer, content[i]) == 0);
 
-				while (content[i++] != '\0' && content[i] != '\n')
+				while (content[i] != '\0' && content[i] != '\n' && content != EOF)
 				{
-					assert(vec_push(&buffer, content[i]) == 0);
+					assert(vec_push(&buffer, content[i++]) == 0);
 				}
 
 				assert(vec_push_char_in_str(&tokens, &buffer) == 0);
+				vec_clear(&buffer);
 				break;
 			}
 			default:
