@@ -3,6 +3,7 @@
 
 #include "reader.h"
 #include <assert.h>
+
 int
 vec_push_char_in_str(vec_str_t *s, vec_char_t *c)
 {
@@ -68,10 +69,8 @@ tokenize(const char *content)
 
 	for (i = 0; i < strlen(content); i++)
 	{
-
 		switch (content[i])
 		{
-
 			case '\r':
 			case '\t':
 			case '\f':
