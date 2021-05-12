@@ -1,3 +1,6 @@
+#include "test_reader.h"
+#include "reader.h"
+#include "utils.h"
 #include <mulib/common.h>
 #include <mulib/macros.h>
 #include <mulib/vec.h>
@@ -5,10 +8,7 @@
 #include <stdarg.h>
 #include <stddef.h>
 
-#include "reader.h"
-#include "test_reader.h"
 #include <cmocka.h>
-
 void
 read_str_test(void **state)
 {
@@ -34,7 +34,6 @@ void
 read_str_test_comment(void **state)
 {
 
-	/* First test */
 	vec_str_t tokens;
 	size_t i = 0;
 	char *expected[] = {
@@ -44,12 +43,15 @@ read_str_test_comment(void **state)
 	char *expected2[] = { "; test", "(", "+", "1", "2", "3", ")" };
 
 	UNUSED(state);
+
+	/* First test */
 	tokens = tokenize("(+ 1 2 3) ; hello comment world!");
 
-	for (i = 0; i < sizeof(expected) / sizeof(expected[0]); i++)
+	assert_int_equal(ARRLEN(expected), tokens.length);
+
+	for (i = 0; i < ARRLEN(expected); i++)
 	{
 
-		assert_int_equal(sizeof(expected) / sizeof(expected[0]), tokens.length);
 		assert_string_equal(expected[i], tokens.data[i]);
 	}
 
@@ -59,11 +61,11 @@ read_str_test_comment(void **state)
 	/* Second test */
 	tokens = tokenize("; test (+ 1 2 3)");
 
-	for (i = 0; i < sizeof(expected1) / sizeof(expected1[0]); i++)
+	assert_int_equal(ARRLEN(expected1), tokens.length);
+
+	for (i = 0; i < ARRLEN(expected1); i++)
 	{
 
-		assert_int_equal(sizeof(expected1) / sizeof(expected1[0]),
-						 tokens.length);
 		assert_string_equal(expected1[i], tokens.data[i]);
 	}
 
@@ -73,11 +75,10 @@ read_str_test_comment(void **state)
 	/* Third test */
 	tokens = tokenize("; test\n (+ 1 2 3)");
 
-	for (i = 0; i < sizeof(expected2) / sizeof(expected2[0]); i++)
+	for (i = 0; i < ARRLEN(expected2); i++)
 	{
 
-		assert_int_equal(sizeof(expected2) / sizeof(expected2[0]),
-						 tokens.length);
+		assert_int_equal(ARRLEN(expected2), tokens.length);
 		assert_string_equal(expected2[i], tokens.data[i]);
 	}
 

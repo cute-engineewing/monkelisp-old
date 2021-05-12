@@ -3,7 +3,6 @@
 
 #include "reader.h"
 #include <assert.h>
-
 int
 vec_push_char_in_str(vec_str_t *s, vec_char_t *c)
 {
@@ -116,7 +115,8 @@ tokenize(const char *content)
 			case ';':
 			{
 
-				while (content[i] != '\0' && content[i] != '\n' && content[i] != EOF)
+				while (content[i] != '\0' && content[i] != '\n' &&
+					   content[i] != EOF)
 				{
 					assert(vec_push(&buffer, content[i++]) == 0);
 				}
