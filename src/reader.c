@@ -72,10 +72,10 @@ tokenize(const char *content)
 		switch (content[i])
 		{
 			case '\r':
-			case '\n':
 			case '\t':
 			case '\f':
 			case '\v':
+			case '\n':
 			case ' ':
 			{
 				assert(push_buffer_if_not_empty(&tokens, &buffer) == 0);
@@ -111,6 +111,19 @@ tokenize(const char *content)
 				break;
 			}
 
+			case ';':
+			{
+				while (content[i] != '\0' && content[i] != '\n' &&
+					   content[i] != EOF)
+				{
+					assert(vec_push(&buffer, content[i++]) == 0);
+				}
+
+				assert(vec_push_char_in_str(&tokens, &buffer) == 0);
+				vec_clear(&buffer);
+
+				break;
+			}
 			default:
 			{
 				assert(vec_push(&buffer, content[i]) == 0);
