@@ -33,7 +33,6 @@ read_str_test(void **state)
 void
 read_str_test_comment(void **state)
 {
-
 	vec_str_t tokens;
 	size_t i = 0;
 	char *expected[] = {
